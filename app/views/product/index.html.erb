@@ -1,4 +1,9 @@
+<h1>Products</h1>
 <% @products.each do |product| %>
-  <h2><%= link_to product.name, product_path(product) %></h2>
-  <p><%= product.description %></p>
+  <div>
+    <h2><%= link_to product.name, product_path(product) %></h2>
+    <p><%= product.description %></p>
+    <%= image_tag product.images.first if product.images.attached? %>
+    <p>Price: $<%= product.price %></p>
+  </div>
 <% end %>

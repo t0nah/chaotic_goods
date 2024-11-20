@@ -1,3 +1,7 @@
 <h1><%= @product.name %></h1>
+<% @product.images.each do |image| %>
+  <%= image_tag image %>
+<% end %>
 <p><%= @product.description %></p>
 <p>Price: $<%= @product.price %></p>
+<p>Category: <%= @product.category.name if @product.category %></p>
