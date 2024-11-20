@@ -1,4 +1,4 @@
-class Admin::ProductsController < ApplicationController
+class Admin::ProductController < ApplicationController
   before_action :authenticate_admin!
 
   def new
