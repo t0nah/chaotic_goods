@@ -1,0 +1,6 @@
+<%= render 'header' %>
+
+<h1><%= @products.name %></h1>
+<p><%= @products.description %></p>
+<p>Price: $<%= @products.price %></p>
+<p>Category: <%= link_to @products.category.name, product_path(category_url) if @products.category %></p>

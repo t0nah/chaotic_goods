@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  get "category/index"
-  get "product/index"
+
+  root "products#index"
+  resources :products, only: [:index, :show]
+  resources :categories, only: [:index, :show]
+
   devise_for :admins
+
   get 'admin_dashboard', to: 'admins#dashboard'
   get 'admin_product', to: 'admin#product'
 
@@ -11,6 +15,5 @@ Rails.application.routes.draw do
     resources :product
   end
 
-  root "product#index"
-  resources :products, only: [:index, :show]
+
 end

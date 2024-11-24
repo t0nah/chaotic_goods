@@ -1,9 +1,26 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'httparty'
+
+# Clear existing products
+Product.destroy_all
+
+# Fetch product data from the API
+url = 'https://retoolapi.dev/BZXzuB/mrporter'
+response = HTTParty.get(url)
+
+if response.code == 200
+  products_data = response.parsed_response
+
+  # Create products using data from the API
+  products_data.each do |product_data|
+    Product.find_or_create_by!(
+      name: product_data['description'],  # Using 'description' as the product name
+      brand: product_data['brand'],        # 'brand' as the brand
+      price: product_data['price_usd'],    # 'price_usd' as the product price
+      category: Category.find_or_create_by(name: product_data['type'])  # Create or find the category
+    )
+  end
+
+  puts "Created #{Product.count} products!"
+else
+  puts "Failed to fetch data from API. Response code: #{response.code}"
+end
