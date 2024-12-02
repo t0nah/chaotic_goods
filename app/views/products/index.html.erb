@@ -1,10 +1,20 @@
 <%= render 'header' %>
 
 <h1>Products</h1>
-<% @products.each do |product| %>
-  <div>
-    <h2><%= link_to product.name, product_path(product) %></h2>
-    <p><%= product.description %></p>
-    <p>Price: $<%= product.price %></p>
-  </div>
-<% end %>
+
+<div class="products-list">
+  <% @products.each do |product| %>
+    <div class="product-card card mb-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= link_to product.name, product_path(product) %></h5>
+        <p class="card-text"><%= product.description %></p>
+        <p class="card-text text-muted">Price: $<%=product.price %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="pagination justify-content-end mt-2"><%= paginate @products %></div>
+
+</div>
