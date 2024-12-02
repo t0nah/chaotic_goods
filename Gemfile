@@ -27,8 +27,8 @@ gem 'nokogiri'
 # gem "kredis"
 gem 'bootstrap', '~> 5.3.0'
 gem 'sassc-rails'
-gem 'nokogiri'
 gem 'httparty'
+gem 'kaminari'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
