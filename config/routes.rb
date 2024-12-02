@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'dashboard#index'
+    get 'dashboard', to: 'dashboard#index', as: 'dashboard'
     resources :products
     resources :categories
   end
