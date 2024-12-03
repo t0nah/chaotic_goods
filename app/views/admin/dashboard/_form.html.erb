@@ -1,21 +1,23 @@
-<%= form_with model: article do |form| %>
-  <div>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
-    <% product.errors.full_messages_for(:title).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
+<%= form_with(model: @products, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control' %>
   </div>
-
-  <div>
-    <%= form.label :body %><br>
-    <%= form.textarea :body %><br>
-    <% product.errors.full_messages_for(:body).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: 'form-control' %>
   </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="form-group">
+    <%= f.label :price %>
+    <%= f.number_field :price, class: 'form-control' %>
   </div>
+  <div class="form-group">
+    <%= f.label :category %>
+    <%= f.collection_select :category_id, Category.all, :id, :name, include_blank: true, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :image %>
+    <%= f.file_field :image, class: 'form-control' %>
+  </div>
+  <%= f.submit 'Save', class: 'btn btn-success' %>
 <% end %>
