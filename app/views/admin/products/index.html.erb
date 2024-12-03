@@ -1,25 +1,47 @@
-<h1>Product Listings</h1>
-<%= link_to 'Add New Product', new_admin_product_path, class: 'btn btn-primary' %>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Brand</th>
-      <th>Price</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @products.each do |product| %>
-      <tr>
-        <td><%= product.name %></td>
-        <td><%= product.brand %></td>
-        <td><%= product.price %></td>
-        <td>
-          <%= link_to 'Edit', edit_admin_product_path(product), class: 'btn btn-secondary' %>
-          <%= link_to 'Delete', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render 'admin/dashboard/header' %>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <%= render 'admin/dashboard/sidebar' %>
+
+    <!-- Main Content -->
+    <div class="col-md-10">
+      <div class="container mt-4">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1 class="h3">Product Listings</h1>
+          <%= link_to 'Add New Product', new_admin_product_path, class: 'btn btn-primary' %>
+        </div>
+
+        <!-- Table -->
+        <table class="table table-striped table-bordered align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Brand</th>
+              <th scope="col">Price</th>
+              <th scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @products.each do |product| %>
+              <tr>
+                <td><%= product.name %></td>
+                <td><%= product.brand %></td>
+                <td>$<%= '%.2f' % product.price %></td>
+                <td class="text-center">
+                  <%= link_to 'Edit', edit_admin_product_path(product), class: 'btn btn-warning btn-sm mx-1' %>
+                  <%= link_to 'Delete', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm mx-1' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
