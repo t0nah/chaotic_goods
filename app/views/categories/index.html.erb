@@ -1,0 +1,15 @@
+<%= render 'product/sheader' %>
+
+<h1>Products</h1>
+
+<div class="products-list">
+  <% @products.each do |product| %>
+    <div class="product-card card mb-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= link_to product.name, product_path(product) %></h5>
+        <p class="card-text text-muted">Price: $<%=product.price %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+</div>
