@@ -24,3 +24,24 @@ if response.code == 200
 else
   puts "Failed to fetch data from API. Response code: #{response.code}"
 end
+
+
+categories = ["Clothing", "Accessories", "Fragrances"]
+
+category_records = categories.map do |category_name|
+  Category.create!(name: category_name)
+end
+
+brands = ["Dior", "Chanel", "Gucci", "Louis Vuitton", "Prada", "Balenciaga", "Versace", "Burberry"]
+
+100.times do
+  category = category_records.sample # Randomly assign a category
+  Product.find_or_create_by!(
+    name: "#{Faker::Commerce.material} #{brands.sample} #{Faker::Commerce.product_name}",
+    price: Faker::Commerce.price(range: 100..2000),
+    brand: brands.sample,
+    category_id: category.id
+  )
+end
+
+puts "Seeded #{Category.count} categories and #{Product.count} products!"
