@@ -1,47 +1,25 @@
 require 'httparty'
 
-# Clear existing products
-Product.destroy_all
+# Define the API endpoint
+api_url = 'https://fakestoreapi.com/products'
 
-# Fetch product data from the API
-url = 'https://retoolapi.dev/BZXzuB/mrporter'
-response = HTTParty.get(url)
+# Get the data from the API
+response = HTTParty.get(api_url)
+products = JSON.parse(response.body)
 
-if response.code == 200
-  products_data = response.parsed_response
+# Iterate through the products and create entries in the database
+products.each do |product|
+  # Find or create the category
+  category = Category.find_or_create_by(name: product['category'])
 
-  # Create products using data from the API
-  products_data.each do |product_data|
-    Product.find_or_create_by!(
-      name: product_data['description'],  # Using 'description' as the product name
-      brand: product_data['brand'],        # 'brand' as the brand
-      price: product_data['price_usd'],    # 'price_usd' as the product price
-      category: Category.find_or_create_by(name: product_data['type'])  # Create or find the category
-    )
+  # Only create a product if it doesn't already exist
+  Product.find_or_create_by(name: product['title']) do |p|
+    p.price = product['price']
+    p.description = product['description']
+    p.brand = product['brand'] || 'Unknown'  # If brand is not provided, set it as 'Unknown'
+    p.category = category  # Assign the category object to the product
+    p.image = product['image']
   end
-
-  puts "Created #{Product.count} products!"
-else
-  puts "Failed to fetch data from API. Response code: #{response.code}"
 end
 
-
-categories = ["Clothing", "Accessories", "Fragrances"]
-
-category_records = categories.map do |category_name|
-  Category.create!(name: category_name)
-end
-
-brands = ["Dior", "Chanel", "Gucci", "Louis Vuitton", "Prada", "Balenciaga", "Versace", "Burberry"]
-
-100.times do
-  category = category_records.sample # Randomly assign a category
-  Product.find_or_create_by!(
-    name: "#{Faker::Commerce.material} #{brands.sample} #{Faker::Commerce.product_name}",
-    price: Faker::Commerce.price(range: 100..2000),
-    brand: brands.sample,
-    category_id: category.id
-  )
-end
-
-puts "Seeded #{Category.count} categories and #{Product.count} products!"
+puts "Database seeded with products!"
