@@ -1,25 +1,59 @@
 require 'httparty'
+require 'faker'
 
-# Define the API endpoint
-api_url = 'https://fakestoreapi.com/products'
+# Clear existing products
+Product.destroy_all
+Category.destroy_all
 
-# Get the data from the API
-response = HTTParty.get(api_url)
-products = JSON.parse(response.body)
+# Fetch product data from the API
+url = 'https://retoolapi.dev/BZXzuB/mrporter'
+response = HTTParty.get(url)
 
-# Iterate through the products and create entries in the database
-products.each do |product|
-  # Find or create the category
-  category = Category.find_or_create_by(name: product['category'])
+if response.code == 200
+  products_data = response.parsed_response
 
-  # Only create a product if it doesn't already exist
-  Product.find_or_create_by(name: product['title']) do |p|
-    p.price = product['price']
-    p.description = product['description']
-    p.brand = product['brand'] || 'Unknown'  # If brand is not provided, set it as 'Unknown'
-    p.category = category  # Assign the category object to the product
-    p.image = product['image']
+  # Create products using data from the API
+  products_data.each do |product_data|
+    Product.find_or_create_by!(
+      name: product_data['description'],  # Using 'description' as the product name
+      brand: product_data['brand'],        # 'brand' as the brand
+      price: product_data['price_usd'],    # 'price_usd' as the product price
+      category: Category.find_or_create_by(name: product_data['type'])  # Create or find the category
+    )
   end
+
+  puts "Created #{Product.count} products!"
+else
+  puts "Failed to fetch data from API. Response code: #{response.code}"
 end
 
-puts "Database seeded with products!"
+# Faker
+categories = ["Clothing", "Accessories"]
+category_records = categories.map do |category_name|
+  Category.create!(name: category_name)
+end
+
+# Define a list of clothing and accessory-related brands
+brands = ["Dior", "Chanel", "Gucci", "Louis Vuitton", "Prada", "Balenciaga", "Versace", "Burberry"]
+
+100.times do
+  category = category_records.sample
+
+  # Generate a random product name
+  product_name = "#{Faker::Commerce.material} #{brands.sample} #{Faker::Commerce.product_name}"
+  product_type = category.name.downcase
+
+  # Create a random image URL based on the product type
+  image_url = "https://source.unsplash.com/200x200/?#{product_type},#{Faker::Commerce.product_name.downcase}"
+
+  Product.find_or_create_by!(
+    name: product_name,
+    price: Faker::Commerce.price(range: 100..2000),
+    brand: brands.sample,
+    category: category,  # Set the category
+    category_id: category.id,
+    image: image_url
+  )
+end
+
+puts "Seeded #{Category.count} categories and #{Product.count} products!"
