@@ -20,4 +20,7 @@ class ProductsController < ApplicationController
     @categories = Category.all
   end
 
+  def search
+    redirect_to products_path(search: params[:search], category_id: params[:category_id])
+  end
 end

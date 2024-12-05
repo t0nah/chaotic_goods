@@ -2,10 +2,13 @@ Rails.application.routes.draw do
 
   root "home#index"
   get '/products', to: 'products#index'
-  resources :products, only: [:index, :show]
+  resources :products, only: [:index, :show] do
+    collection do
+      get 'search'
+    end
+  end
   resources :categories, only: [:index, :show]
   resources :pages, only: [:show]
-
 
   devise_for :admins
 

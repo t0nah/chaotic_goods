@@ -22,14 +22,14 @@
       <li class="nav-item"><a class="nav-link" href="/cart"><i class="bi bi-cart"></i> Cart</a></li>
     </ul>
     <!-- Search Form -->
-    <form class="d-flex" action="/products" method="get">
+    <form class="d-flex" action="<%= search_products_path %>" method="get">
     <select class="form-select me-2" name="category" aria-label="Category">
       <option value="" selected>All Categories</option>
       <% @categories.each do |category| %>
         <option value="<%= category.id %>" <%= "selected" if params[:category] == category.id.to_s %>><%= category.name %></option>
       <% end %>
     </select>
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" value="<%= params[:query] %>">
+  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" value="<%= params[:search] %>">
     <button class="btn btn-outline-primary" type="submit">Search</button>
   </form>
   </div>

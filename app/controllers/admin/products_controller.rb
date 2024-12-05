@@ -1,13 +1,12 @@
 class Admin::ProductsController < ApplicationController
   before_action :authenticate_admin!
-  before_action :set_product, only: [:show, :edit, :update, :destroy] # DRY approach
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index
     @products = Product.all
   end
 
   def show
-    # @product is set by the before_action
   end
 
   def new
@@ -24,7 +23,6 @@ class Admin::ProductsController < ApplicationController
   end
 
   def edit
-    # @product is set by the before_action
   end
 
   def update

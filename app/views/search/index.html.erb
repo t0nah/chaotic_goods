@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Search Results</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+      <a class="navbar-brand" href="/">Chaotic Goods</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Navigation Links -->
+        <ul class="navbar-nav ms-auto me-3">
+          <li class="nav-item"><a class="nav-link" href="/shop">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="/brands">Brands</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="/cart"><i class="bi bi-cart"></i> Cart</a></li>
+        </ul>
+        <!-- Search Form -->
+        <form class="d-flex" action="<%= search_products_path %>" method="get">
+          <select class="form-select me-2" name="category_id" aria-label="Category">
+            <option value="all" selected>All Categories</option>
+            <% @categories.each do |category| %>
+              <option value="<%= category.id %>" <%= "selected" if params[:category_id] == category.id.to_s %>><%= category.name %></option>
+            <% end %>
+          </select>
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" value="<%= params[:query] %>">
+          <button class="btn btn-outline-primary" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="container my-5">
+      <h1 class="p-2">Search Results</h1>
+
+      <% if @products.any? %>
+        <!-- Products List -->
+        <div class="row">
+          <% @products.each do |product| %>
+            <div class="col-md-4 col-sm-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><%= link_to product.name, product_path(product) %></h5>
+                  <p class="card-text text-muted">Price: $<%= product.price %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination justify-content-end mt-2">
+          <%= paginate @products %>
+        </div>
+      <% else %>
+        <p>No products found.</p>
+      <% end %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
