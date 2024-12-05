@@ -1,23 +1,42 @@
-<%= form_with(model: @products, local: true) do |f| %>
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, class: 'form-control' %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Styled Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="bg-light d-flex justify-content-center align-items-center vh-100">
+  <div class="container p-4 bg-white rounded shadow" style="max-width: 500px;">
+    <h1 class="text-center mb-4">Product Form</h1>
+    <%= form_with(model: [:admin, @product], local: true) do |f| %>
+      <div class="mb-3">
+        <%= f.label :name, class: "form-label" %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :description, class: "form-label" %>
+        <%= f.text_area :description, class: 'form-control' %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :price, class: "form-label" %>
+        <%= f.number_field :price, class: 'form-control' %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :category, class: "form-label" %>
+        <%= f.collection_select :category_id, Category.all, :id, :name, include_blank: true, class: 'form-control' %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :image, class: "form-label" %>
+        <%= f.file_field :image, class: 'form-control' %>
+      </div>
+      <div class="text-center">
+        <%= f.submit 'Save Changes', class: 'btn btn-success' %>
+      </div>
+    <% end %>
   </div>
-  <div class="form-group">
-    <%= f.label :description %>
-    <%= f.text_area :description, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <%= f.label :price %>
-    <%= f.number_field :price, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <%= f.label :category %>
-    <%= f.collection_select :category_id, Category.all, :id, :name, include_blank: true, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <%= f.label :image %>
-    <%= f.file_field :image, class: 'form-control' %>
-  </div>
-  <%= f.submit 'Save', class: 'btn btn-success' %>
-<% end %>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

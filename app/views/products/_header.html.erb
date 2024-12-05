@@ -23,15 +23,15 @@
     </ul>
     <!-- Search Form -->
     <form class="d-flex" action="/products" method="get">
-      <select class="form-select me-2" name="category" aria-label="Category">
-        <option value="" selected>All Categories</option>
-        <% @categories.each do |category| %>
-          <option value="<%= category.id %>"><%= category.name %></option>
-        <% end %>
-      </select>
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">
-      <button class="btn btn-outline-primary" type="submit">Search</button>
-    </form>
+    <select class="form-select me-2" name="category" aria-label="Category">
+      <option value="" selected>All Categories</option>
+      <% @categories.each do |category| %>
+        <option value="<%= category.id %>" <%= "selected" if params[:category] == category.id.to_s %>><%= category.name %></option>
+      <% end %>
+    </select>
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" value="<%= params[:query] %>">
+    <button class="btn btn-outline-primary" type="submit">Search</button>
+  </form>
   </div>
 </nav>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

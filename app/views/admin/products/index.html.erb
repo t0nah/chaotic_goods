@@ -42,6 +42,11 @@
             <h1 class="h3">Product Listings</h1>
             <%= link_to 'Add New Product', new_admin_product_path, class: 'btn btn-primary' %>
           </div>
+          <% flash.each do |key, message| %>
+            <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>" role="alert">
+              <%= message %>
+            </div>
+          <% end %>
 
           <!-- Table -->
           <div class="table-responsive">
@@ -62,7 +67,9 @@
                     <td>$<%= '%.2f' % product.price %></td>
                     <td class="text-center">
                       <%= link_to 'Edit', edit_admin_product_path(product), class: 'btn btn-warning btn-sm mx-1' %>
-                      <%= link_to 'Delete', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm mx-1' %>
+<%= form_with url: admin_product_path(product), method: :delete, class: 'd-inline' do %>
+  <%= button_to 'Delete', nil, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+<% end %>
                     </td>
                   </tr>
                 <% end %>
