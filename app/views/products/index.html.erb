@@ -23,6 +23,7 @@
           <div class="card-body">
             <h5 class="card-title"><%= link_to product.name, product_path(product) %></h5>
             <p class="card-text text-muted">Price: $<%= product.price %></p>
+    <%= button_to 'Add to Cart', cart_add_path(product_id: product.id), method: :post, class: 'btn btn-primary' %>
           </div>
         </div>
       </div>

@@ -1,0 +1,28 @@
+<%= render 'products/header' %>
+
+<div class="container mt-5">
+
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>">
+      <%= value %>
+    </div>
+  <% end %>
+
+  <h2 class="mb-4">Shopping Cart</h2>
+<% if @cart_products.present? %>
+  <ul>
+    <% @cart_products.each do |product| %>
+    <li>
+      <%= product.name %> - $<%= product.price %>
+    </li>
+  <% end %>
+  </ul>
+
+  <div class="d-flex justify-content-between align-items-center mt-4">
+      <%= button_to 'Proceed to Checkout', '#', method: :get, class: 'btn btn-success btn' %>
+    </div>
+
+<% else %>
+    <p class="alert alert-warning">Your cart is empty. <%= link_to 'Continue Shopping', products_path, class: 'btn btn-primary' %></p>
+<% end %>
+</div>

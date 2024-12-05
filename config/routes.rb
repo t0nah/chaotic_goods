@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   resources :categories, only: [:index, :show]
   resources :pages, only: [:show]
 
+  post 'cart/add/:product_id', to: 'cart#add', as: 'cart_add'
+get 'cart', to: 'cart#index', as: 'cart_index'
+
   devise_for :admins
 
   namespace :admin do

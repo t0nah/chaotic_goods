@@ -1,8 +1,28 @@
 <%= render 'header' %>
 
-<h1><%= @products.name %></h1>
-<p><%= @products.description %></p>
-<p>Brand: <%= @products.brand %></p>
-<p>Price: $<%= @products.price %></p>
+<div class="container mt-5">
+  <!-- Product Title -->
+  <h1 class="h3"><%= @products.name %></h1>
 
-<p>Category: <%= link_to @products.category.name, product_path(category_url) if @products.category %></p>
+  <!-- Product Description -->
+  <p class="lead text-muted mb-3"><%= @products.description %></p>
+
+  <!-- Product Details -->
+  <div class="mb-2">
+    <strong>Brand:</strong> <%= @products.brand %>
+  </div>
+
+  <div class="mb-2">
+    <strong>Price:</strong> $<%= sprintf('%.2f', @products.price) %>
+  </div>
+
+  <div class="mb-2">
+    <strong>Category:</strong>
+    <%= link_to @products.category.name, product_path(category_url) if @products.category %>
+  </div>
+
+  <!-- Add to Cart Button -->
+  <div class="mt-4">
+    <%= button_to 'Add to Cart', cart_add_path(product_id: @products.id), method: :post, class: 'btn btn-primary btn' %>
+  </div>
+</div>

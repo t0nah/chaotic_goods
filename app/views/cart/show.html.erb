@@ -1,0 +1,42 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Shopping Cart</h2>
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>">
+      <%= value %>
+    </div>
+  <% end %>
+
+<% if @cart_items.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart_items.each do |cart_item| %>
+        <tr>
+          <td><%= cart_item.product.name %></td>
+          <td>
+            <%= form_with url: update_quantity_cart_path(cart_item.product), method: :patch, local: true do %>
+              <%= number_field_tag :quantity, cart_item.quantity, min: 1 %>
+              <%= submit_tag 'Update', class: 'btn btn-secondary btn-sm' %>
+            <% end %>
+          </td>
+          <td>$<%= '%.2f' % cart_item.product.price %></td>
+          <td>$<%= '%.2f' % (cart_item.product.price * cart_item.quantity) %></td>
+          <td>
+            <%= link_to 'Remove', remove_cart_path(cart_item.product), method: :delete, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <p class="text-end fw-bold">Total: $<%= '%.2f' % @cart_items.sum { |item| item.product.price * item.quantity } %></p>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>
