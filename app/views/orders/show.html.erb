@@ -1,0 +1,28 @@
+<h2>Order Invoice</h2>
+<p><strong>Customer:</strong> <%= @order.user.name %></p>
+<p><strong>Email:</strong> <%= @order.user.email %></p>
+<p><strong>Address:</strong> <%= @order.user.address %></p>
+<p><strong>Province:</strong> <%= @order.user.province %></p>
+
+<table class="table mt-4">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td>$<%= sprintf('%.2f', item.price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p><strong>Subtotal:</strong> $<%= sprintf('%.2f', @order.order_amount - @order.tax) %></p>
+<p><strong>Tax:</strong> $<%= sprintf('%.2f', @order.tax) %></p>
+<p><strong>Total:</strong> $<%= sprintf('%.2f', @order.order_amount) %></p>

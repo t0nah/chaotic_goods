@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
 
   root "home#index"
   get '/products', to: 'products#index'
@@ -11,7 +12,11 @@ Rails.application.routes.draw do
   resources :pages, only: [:show]
 
   post 'cart/add/:product_id', to: 'cart#add', as: 'cart_add'
-get 'cart', to: 'cart#index', as: 'cart_index'
+  get 'cart', to: 'cart#index', as: 'cart_index'
+  get 'cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
+  post 'cart/create_order', to: 'cart#create_order', as: 'cart_create_order'
+
+  resources :orders, only: [:show]
 
   devise_for :admins
 
