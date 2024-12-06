@@ -2,8 +2,8 @@ require 'httparty'
 require 'faker'
 
 # Clear existing products
-#Product.destroy_all
-#Category.destroy_all
+# Product.destroy_all
+# Category.destroy_all
 
 # Fetch product data from the API
 url = 'https://retoolapi.dev/BZXzuB/mrporter'

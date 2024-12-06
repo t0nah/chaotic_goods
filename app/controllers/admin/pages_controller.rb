@@ -11,5 +11,4 @@ class Admin::PagesController < ApplicationController
       render :edit, alert: "Unable to update page."
     end
   end
-
 end

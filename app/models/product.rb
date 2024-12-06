@@ -3,5 +3,4 @@ class Product < ApplicationRecord
   belongs_to :category
   validates :price, presence: true, numericality: true
  has_many :cart_items
-
 end

@@ -42,6 +42,6 @@ class Admin::DashboardController < ApplicationController
 
   private
     def product_params
-      params.expect(product: [:title, :body])
+      params.expect(product: [ :title, :body ])
     end
 end

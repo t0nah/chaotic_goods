@@ -1,6 +1,6 @@
-require 'httparty'
-require 'nokogiri'
-load 'lib/scrape.rb'
+require "httparty"
+require "nokogiri"
+load "lib/scrape.rb"
 
 products = scrape_farfetch(50) # This would call the scraper and fetch data
 products.each do |product|
